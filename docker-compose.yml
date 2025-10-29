@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: quantinit-backend
+    environment:
+      - DEBUG=true
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=sqlite+aiosqlite:///./data/database/stocks.db
+    volumes:
+      - ./backend/data:/app/data
+      - ./backend/logs:/app/logs
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: quantinit-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+networks:
+  default:
+    name: quantinit-net
+
