@@ -165,3 +165,4 @@ npm run test
 
 **开发团队**: 个人开发项目
 **技术支持**: 基于[实施计划](implementation_plan.md)构建
+[![CI](https://github.com/huangbolungit/QuantInit/actions/workflows/backend-ci.yml/badge.svg?branch=main)](https://github.com/huangbolungit/QuantInit/actions/workflows/backend-ci.yml)
