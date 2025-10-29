@@ -1,0 +1,26 @@
+{
+  "strategy_name": "CompatibleMomentum",
+  "description": "动量策略150股样本最终优化配置",
+  "parameter_grid": {
+    "momentum_period": [5, 10, 15, 20],
+    "buy_threshold": [0.03, 0.05, 0.08, 0.10],
+    "sell_threshold": [-0.02, -0.03, -0.05, -0.08],
+    "max_hold_days": [5, 10, 15, 20]
+  },
+  "fixed_parameters": {
+    "position_size": 1000
+  },
+  "stock_pool_file": "config/stock_pool_150.txt",
+  "optimization_settings": {
+    "objective": "sharpe_ratio",
+    "min_trades": 20,
+    "max_drawdown_threshold": 0.4
+  },
+  "metadata": {
+    "created_date": "2025-10-19",
+    "total_combinations": 1024,
+    "expected_runtime": "2-4 hours",
+    "strategy_type": "momentum",
+    "sample_size": "150 stocks"
+  }
+}

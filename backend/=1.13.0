@@ -1,0 +1,90 @@
+Looking in indexes: https://pypi.org/simple, https://pypi.ngc.nvidia.com
+Collecting akshare
+  Downloading akshare-1.17.69-py3-none-any.whl.metadata (12 kB)
+Requirement already satisfied: aiohttp>=3.11.13 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from akshare) (3.13.1)
+Collecting beautifulsoup4>=4.9.1 (from akshare)
+  Downloading beautifulsoup4-4.14.2-py3-none-any.whl.metadata (3.8 kB)
+Collecting lxml>=4.2.1 (from akshare)
+  Downloading lxml-6.0.2-cp312-cp312-win_amd64.whl.metadata (3.7 kB)
+Requirement already satisfied: pandas>=0.25 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from akshare) (2.3.3)
+Collecting requests>=2.22.0 (from akshare)
+  Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Collecting html5lib>=1.0.1 (from akshare)
+  Downloading html5lib-1.1-py2.py3-none-any.whl.metadata (16 kB)
+Collecting xlrd>=1.2.0 (from akshare)
+  Downloading xlrd-2.0.2-py2.py3-none-any.whl.metadata (3.5 kB)
+Collecting urllib3>=1.25.8 (from akshare)
+  Downloading urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting tqdm>=4.43.0 (from akshare)
+  Downloading tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+Collecting openpyxl>=3.0.3 (from akshare)
+  Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+Collecting jsonpath>=0.82 (from akshare)
+  Downloading jsonpath-0.82.2.tar.gz (10 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting tabulate>=0.8.6 (from akshare)
+  Downloading tabulate-0.9.0-py3-none-any.whl.metadata (34 kB)
+Collecting decorator>=4.4.2 (from akshare)
+  Downloading decorator-5.2.1-py3-none-any.whl.metadata (3.9 kB)
+Collecting nest_asyncio>=1.6.0 (from akshare)
+  Downloading nest_asyncio-1.6.0-py3-none-any.whl.metadata (2.8 kB)
+Collecting mini-racer>=0.12.4 (from akshare)
+  Downloading mini_racer-0.12.4-py3-none-win_amd64.whl.metadata (18 kB)
+Requirement already satisfied: aiohappyeyeballs>=2.5.0 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiohttp>=3.11.13->akshare) (2.6.1)
+Requirement already satisfied: aiosignal>=1.4.0 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiohttp>=3.11.13->akshare) (1.4.0)
+Requirement already satisfied: attrs>=17.3.0 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiohttp>=3.11.13->akshare) (25.4.0)
+Requirement already satisfied: frozenlist>=1.1.1 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiohttp>=3.11.13->akshare) (1.8.0)
+Requirement already satisfied: multidict<7.0,>=4.5 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiohttp>=3.11.13->akshare) (6.7.0)
+Requirement already satisfied: propcache>=0.2.0 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiohttp>=3.11.13->akshare) (0.4.1)
+Requirement already satisfied: yarl<2.0,>=1.17.0 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiohttp>=3.11.13->akshare) (1.22.0)
+Requirement already satisfied: idna>=2.0 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from yarl<2.0,>=1.17.0->aiohttp>=3.11.13->akshare) (3.11)
+Requirement already satisfied: typing-extensions>=4.2 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from aiosignal>=1.4.0->aiohttp>=3.11.13->akshare) (4.15.0)
+Collecting soupsieve>1.2 (from beautifulsoup4>=4.9.1->akshare)
+  Downloading soupsieve-2.8-py3-none-any.whl.metadata (4.6 kB)
+Requirement already satisfied: six>=1.9 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from html5lib>=1.0.1->akshare) (1.17.0)
+Collecting webencodings (from html5lib>=1.0.1->akshare)
+  Downloading webencodings-0.5.1-py2.py3-none-any.whl.metadata (2.1 kB)
+Collecting et-xmlfile (from openpyxl>=3.0.3->akshare)
+  Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+Requirement already satisfied: numpy>=1.26.0 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from pandas>=0.25->akshare) (2.3.4)
+Requirement already satisfied: python-dateutil>=2.8.2 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from pandas>=0.25->akshare) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from pandas>=0.25->akshare) (2025.2)
+Requirement already satisfied: tzdata>=2022.7 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from pandas>=0.25->akshare) (2025.2)
+Collecting charset_normalizer<4,>=2 (from requests>=2.22.0->akshare)
+  Downloading charset_normalizer-3.4.4-cp312-cp312-win_amd64.whl.metadata (38 kB)
+Requirement already satisfied: certifi>=2017.4.17 in f:\recentwork\code\stock\backend\venv\lib\site-packages (from requests>=2.22.0->akshare) (2025.10.5)
+Requirement already satisfied: colorama in f:\recentwork\code\stock\backend\venv\lib\site-packages (from tqdm>=4.43.0->akshare) (0.4.6)
+Downloading akshare-1.17.69-py3-none-any.whl (1.1 MB)
+   ---------------------------------------- 1.1/1.1 MB 118.3 kB/s  0:00:18
+Downloading beautifulsoup4-4.14.2-py3-none-any.whl (106 kB)
+Downloading decorator-5.2.1-py3-none-any.whl (9.2 kB)
+Downloading html5lib-1.1-py2.py3-none-any.whl (112 kB)
+Downloading lxml-6.0.2-cp312-cp312-win_amd64.whl (4.0 MB)
+   ---------------------------------------- 4.0/4.0 MB 349.8 kB/s  0:00:12
+Downloading mini_racer-0.12.4-py3-none-win_amd64.whl (13.7 MB)
+   ---------------------------------------- 13.7/13.7 MB 960.1 kB/s  0:00:14
+Downloading nest_asyncio-1.6.0-py3-none-any.whl (5.2 kB)
+Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+Downloading charset_normalizer-3.4.4-cp312-cp312-win_amd64.whl (107 kB)
+Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+Downloading soupsieve-2.8-py3-none-any.whl (36 kB)
+Downloading tabulate-0.9.0-py3-none-any.whl (35 kB)
+Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
+Downloading xlrd-2.0.2-py2.py3-none-any.whl (96 kB)
+Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+Downloading webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Building wheels for collected packages: jsonpath
+  Building wheel for jsonpath (pyproject.toml): started
+  Building wheel for jsonpath (pyproject.toml): finished with status 'done'
+  Created wheel for jsonpath: filename=jsonpath-0.82.2-py3-none-any.whl size=5682 sha256=9413fbef7bd0feba445945b6e4adbd9f6d3b1e038ab5953297b4806130d28d45
+  Stored in directory: C:\Users\huang\AppData\Local\Temp\pip-ephem-wheel-cache-qx63riy6\wheels\73\76\e2\980a29341fe37a583ada29594ed529708d5e8e2c0f9d97c3cc
+Successfully built jsonpath
+Installing collected packages: webencodings, jsonpath, xlrd, urllib3, tqdm, tabulate, soupsieve, nest_asyncio, mini-racer, lxml, html5lib, et-xmlfile, decorator, charset_normalizer, requests, openpyxl, beautifulsoup4, akshare
+
+Successfully installed akshare-1.17.69 beautifulsoup4-4.14.2 charset_normalizer-3.4.4 decorator-5.2.1 et-xmlfile-2.0.0 html5lib-1.1 jsonpath-0.82.2 lxml-6.0.2 mini-racer-0.12.4 nest_asyncio-1.6.0 openpyxl-3.1.5 requests-2.32.5 soupsieve-2.8 tabulate-0.9.0 tqdm-4.67.1 urllib3-2.5.0 webencodings-0.5.1 xlrd-2.0.2

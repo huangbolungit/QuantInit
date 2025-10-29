@@ -1,0 +1,28 @@
+{
+  "strategy_name": "StatelessMeanReversion",
+  "description": "无状态均值回归策略全面参数优化",
+  "parameter_grid": {
+    "lookback_period": [5, 10, 15, 20],
+    "buy_threshold": [-0.10, -0.08, -0.05, -0.03],
+    "sell_threshold": [0.02, 0.03, 0.05, 0.08],
+    "stop_loss_threshold": [0.05, 0.08, 0.10, 0.15],
+    "profit_target": [0.08, 0.10, 0.12, 0.15],
+    "max_hold_days": [5, 10, 15, 20],
+    "position_size": [1000]
+  },
+  "fixed_parameters": {
+    "position_size": 1000
+  },
+  "optimization_settings": {
+    "objective": "sharpe_ratio",
+    "min_trades": 10,
+    "max_drawdown_threshold": 0.4
+  },
+  "metadata": {
+    "created_date": "2025-10-19",
+    "total_combinations": 4096,
+    "expected_runtime": "2-4 hours",
+    "strategy_type": "mean_reversion",
+    "design_pattern": "stateless"
+  }
+}

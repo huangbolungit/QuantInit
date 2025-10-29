@@ -1,0 +1,18 @@
+{
+  "strategy_name": "CompatibleMomentum",
+  "description": "动量策略测试配置",
+  "parameter_grid": {
+    "momentum_period": [5, 10],
+    "buy_threshold": [0.05, 0.08],
+    "sell_threshold": [-0.03, -0.05],
+    "max_hold_days": [20]
+  },
+  "fixed_parameters": {
+    "position_size": 1000
+  },
+  "optimization_settings": {
+    "objective": "sharpe_ratio",
+    "min_trades": 5,
+    "max_drawdown_threshold": 0.5
+  }
+}

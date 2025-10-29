@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -X GET \"http://127.0.0.1:8000/api/strategies\" -H \"accept: application/json\")",
+      "Bash(curl -X POST \"http://127.0.0.1:8000/api/strategies\" )",
+      "Bash(python test_strategy_api.py)",
+      "Bash(npm run dev)",
+      "Bash(npm install)",
+      "Bash(npm run build)",
+      "Bash(curl -X GET \"http://127.0.0.1:8000/api/optimization/info\" -H \"accept: application/json\")",
+      "Bash(python -c \"from app.config.optimization_config import get_best_parameters; print(''配置导入成功'')\")",
+      "Bash(python -c \"from app.services.strategy_engine import get_strategy_engine; print(''策略引擎导入成功'')\")",
+      "Bash(python -c \"from app.api.endpoints.strategies import router; print(''策略路由导入成功'')\")",
+      "Bash(python scripts/parameter_optimizer.py --grid momentum_period=5,10 buy_threshold=0.05,0.08 sell_threshold=-0.03,-0.05 --strategy-type momentum --quiet)",
+      "Bash(python scripts/parameter_optimizer.py --grid-file config/momentum_test_config.json --quiet)",
+      "Bash(python scripts/stock_pool_generator.py)",
+      "Bash(python scripts/parameter_optimizer.py --grid-file config/momentum_150_final.json --quiet)",
+      "Bash(python scripts/parameter_optimizer.py --grid-file config/phase1_core_logic_config.json --quiet)",
+      "Bash(python -c \"\nfrom scripts.stateless_strategy_adapter import StatelessMeanReversionStrategy\nfrom scripts.bias_free_backtest_engine import DataSnapshot\nimport pandas as pd\n\n# 创建一个简单的策略实例\nstrategy = StatelessMeanReversionStrategy(lookback_period=10, buy_threshold=-0.05, sell_threshold=0.03)\nprint(''策略创建成功:'', strategy.name)\n\n# 创建测试数据\ntest_data = {\n    ''000001'': {\n        ''close'': 10.0,\n        ''volume'': 1000000,\n        ''date'': ''2022-01-01''\n    }\n}\n\nsnapshot = DataSnapshot(test_data, ''2022-01-01'')\nprint(''测试数据创建成功'')\n\n# 测试信号生成\nsignals = strategy.generate_signals(snapshot)\nprint(''生成的信号数量:'', len(signals))\nprint(''信号详情:'', signals)\n\")",
+      "Bash(python scripts/debug_phase1_optimization.py)",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(python -m uvicorn:*)",
+      "Bash(./venv/Scripts/activate:*)",
+      "Bash(pip install:*)",
+      "Bash(python:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

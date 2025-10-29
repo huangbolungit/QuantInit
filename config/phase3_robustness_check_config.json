@@ -1,0 +1,56 @@
+{
+  "strategy_name": "StatelessMeanReversion",
+  "description": "第三阶段：稳健性验证与最终确认",
+  "phase": "robustness_validation",
+  "objective": "验证冠军策略的稳健性和样本外表现",
+  "depends_on": "phase2_best_parameters",
+  "parameter_grid": {
+    "lookback_period_sensitivity": ["best_parameter_minus_2", "best_parameter", "best_parameter_plus_2"],
+    "buy_threshold_sensitivity": ["best_parameter_minus_0.01", "best_parameter", "best_parameter_plus_0.01"]
+  },
+  "champion_parameters": {
+    "lookback_period": "TO_BE_FILLED_FROM_PHASE2",
+    "buy_threshold": "TO_BE_FILLED_FROM_PHASE2",
+    "sell_threshold": "TO_BE_FILLED_FROM_PHASE2",
+    "stop_loss_threshold": "TO_BE_FILLED_FROM_PHASE2",
+    "max_hold_days": "TO_BE_FILLED_FROM_PHASE2",
+    "profit_target": 0.08,
+    "position_size": 1000
+  },
+  "validation_tests": {
+    "sensitivity_analysis": {
+      "description": "对核心参数进行微调，测试策略稳健性",
+      "success_criteria": "参数微调后策略表现不应出现断崖式下跌"
+    },
+    "out_of_sample_test": {
+      "description": "使用2020-2021年数据进行样本外回测",
+      "data_period": "2020-01-01 to 2021-12-31",
+      "success_criteria": "样本外夏普比率应保持在样本内表现的70%以上"
+    },
+    "robustness_metrics": {
+      "min_acceptable_sharpe": 0.5,
+      "max_acceptable_drawdown": 0.3,
+      "min_trade_count": 20,
+      "consistency_threshold": 0.7
+    }
+  },
+  "optimization_settings": {
+    "objective": "robustness_validation",
+    "expected_combinations": 9,
+    "estimated_runtime": "20-40 minutes"
+  },
+  "methodology": {
+    "focus": "稳健性验证",
+    "rationale": "确保找到的最优参数不是偶然，策略具有实际应用价值",
+    "success_criteria": "通过敏感性分析和样本外测试的双重验证"
+  },
+  "metadata": {
+    "created_date": "2025-10-19",
+    "strategy_type": "mean_reversion",
+    "design_pattern": "stateless",
+    "total_combinations": 9,
+    "computation_efficiency": "high",
+    "phase": "validation",
+    "prerequisite": "Phase2 completion"
+  }
+}

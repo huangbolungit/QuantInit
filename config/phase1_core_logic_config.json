@@ -1,0 +1,37 @@
+{
+  "strategy_name": "StatelessMeanReversion",
+  "description": "第一阶段：核心逻辑参数粗调 - 48组合理计算量",
+  "phase": "core_logic_tuning",
+  "objective": "寻找核心参数甜点区",
+  "parameter_grid": {
+    "lookback_period": [10, 20, 30, 60],
+    "buy_threshold": [-0.05, -0.08, -0.10, -0.12],
+    "sell_threshold": [0.03, 0.05, 0.08]
+  },
+  "fixed_parameters": {
+    "stop_loss_threshold": 0.10,
+    "profit_target": 0.08,
+    "max_hold_days": 15,
+    "position_size": 1000
+  },
+  "optimization_settings": {
+    "objective": "sharpe_ratio",
+    "min_trades": 10,
+    "max_drawdown_threshold": 0.4,
+    "expected_combinations": 48,
+    "estimated_runtime": "30-60 minutes"
+  },
+  "methodology": {
+    "focus": "核心逻辑参数（lookback_period, buy_threshold, sell_threshold）",
+    "rationale": "找到策略最核心的2-3个参数的最佳组合",
+    "success_criteria": "夏普比率最高且回撤可控的参数组合"
+  },
+  "metadata": {
+    "created_date": "2025-10-19",
+    "strategy_type": "mean_reversion",
+    "design_pattern": "stateless",
+    "total_combinations": 48,
+    "computation_efficiency": "high",
+    "phase": "coarse_tuning"
+  }
+}

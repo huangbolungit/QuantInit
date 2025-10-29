@@ -1,0 +1,178 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Coarse Tuning Runner
+
+目标：对核心均值回归策略参数进行第一阶段“粗调”，采用无前视偏差回测引擎与严格数据切分�?
+特性：
+- 自动准备数据（AkShare 优先），按年落到 data/historical/stocks/complete_csi800/stocks/{YYYY}/{code}.csv
+- 训练集与验证集分离（默认：train=2022-01-01..2023-12-31，valid=2024-01-01..至今�?- 网格：lookback_period × buy_threshold × sell_threshold（可按需扩展�?- 输出：JSON �?Markdown 摘要�?optimization_results/coarse_tuning_{ts}/
+
+用法�?  python scripts/run_coarse_tuning.py --pool 000001,000002,600036,600519,000858 \
+    --train 2022-01-01,2023-12-31 --valid 2024-01-01,2024-12-31
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from datetime import datetime, date
+from pathlib import Path
+from typing import List, Dict, Any, Tuple
+
+import pandas as pd
+import sys
+import os
+
+try:
+    import akshare as ak
+    AK = True
+except Exception:
+    AK = False
+
+
+DATA_ROOT = Path("data/historical/stocks/complete_csi800/stocks")
+OUT_ROOT = Path("optimization_results")
+OUT_ROOT.mkdir(exist_ok=True)
+
+
+def _year_dir_for(dt: pd.Timestamp) -> Path:
+    return DATA_ROOT / str(dt.year)
+
+
+def fetch_and_store(code: str, start: str, end: str) -> int:
+    if not AK:
+        return 0
+    df = ak.stock_zh_a_hist(symbol=code, period="daily", start_date=start.replace("-", ""), end_date=end.replace("-", ""), adjust="qfq")
+    if df is None or df.empty:
+        return 0
+    # standardize
+    df = df.rename(columns={
+        '日期': 'date', '开�?: 'open', '收盘': 'close', '最�?: 'high', '最�?: 'low', '成交�?: 'volume', '成交�?: 'amount'
+    })
+    df['date'] = pd.to_datetime(df['date'])
+    df['stock_code'] = code
+    # save split by year
+    total = 0
+    for y, g in df.groupby(df['date'].dt.year):
+        ydir = DATA_ROOT / str(y)
+        ydir.mkdir(parents=True, exist_ok=True)
+        fp = ydir / f"{code}.csv"
+        if fp.exists():
+            old = pd.read_csv(fp)
+            old['date'] = pd.to_datetime(old['date'])
+            merged = pd.concat([old, g], ignore_index=True)
+            merged = merged.drop_duplicates(subset=['date']).sort_values('date')
+            merged.to_csv(fp, index=False)
+            total += len(g)
+        else:
+            g.to_csv(fp, index=False)
+            total += len(g)
+    return total
+
+
+def ensure_data(pool: List[str], start: str, end: str) -> None:
+    for code in pool:
+        try:
+            cnt = fetch_and_store(code, start, end)
+            print(f"[data] {code}: +{cnt} rows")
+        except Exception as e:
+            print(f"[data] {code}: failed {e}")
+
+
+def run_grid(pool: List[str], start: str, end: str, grid: Dict[str, List[Any]], fixed: Dict[str, Any]) -> Dict[str, Any]:
+    # 确保项目根目录在路径中，支持作为命令运行
+    sys.path.append(str(Path(__file__).parent.parent))
+    try:
+        from scripts.parameter_optimizer import ParameterOptimizationRunner as POR  # type: ignore
+    except Exception:
+        from parameter_optimizer import ParameterOptimizationRunner as POR  # type: ignore
+
+    runner = POR()
+    # compose config like file mode
+    cfg = {
+        "strategy_name": "OptimizedMeanReversion",
+        "parameter_grid": grid,
+        "fixed_parameters": fixed,
+    }
+    # Build a light args namespace
+    class Args:
+        def __init__(self):
+            self.data_dir = str(DATA_ROOT)
+            self.output_dir = str(OUT_ROOT)
+            self.start_date = start
+            self.end_date = end
+            self.rebalancing_freq = 10
+            self.stock_pool = ",".join(pool)
+            self.verbose = False
+            self.quiet = False
+
+    args = Args()
+    # The upstream runner exposes run_optimization(config, args)
+    # It returns a summary dict
+    result = runner.run_optimization(cfg, args)
+    return result
+
+
+def write_report(outdir: Path, tag: str, result: Dict[str, Any]) -> None:
+    outdir.mkdir(parents=True, exist_ok=True)
+    # JSON
+    (outdir / f"{tag}_results.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Markdown brief
+    lines = [f"# {tag} 结果摘要",
+             "", f"时间: {datetime.now().isoformat()}", "",
+             f"总组�? {result.get('total_combinations', result.get('summary',{}).get('total_combinations'))}",
+             f"成功测试: {result.get('successful_tests', result.get('summary',{}).get('successful_tests'))}",
+             ""]
+    best = result.get('best_result') or {}
+    if best:
+        lines += ["## 最优参�?, "", "```json", json.dumps(best.get('parameters', {}), ensure_ascii=False, indent=2), "```", "",
+                  "## 指标", "", "```json", json.dumps(best.get('metrics', {}), ensure_ascii=False, indent=2), "```"]
+    (outdir / f"{tag}_report.md").write_text("\n".join(lines), encoding="utf-8")
+
+
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description="Coarse tuning runner (mean reversion)")
+    p.add_argument("--pool", type=str, default="000001,000002,600036,600519,000858", help="股票池，逗号分隔")
+    p.add_argument("--train", type=str, default="2022-01-01,2023-12-31", help="训练集区间，起止以逗号分隔")
+    p.add_argument("--valid", type=str, default=f"2024-01-01,{date.today().isoformat()}", help="验证集区间，起止以逗号分隔")
+    return p.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    pool = [c.strip() for c in args.pool.split(',') if c.strip()]
+    train_start, train_end = [s.strip() for s in args.train.split(',')]
+    valid_start, valid_end = [s.strip() for s in args.valid.split(',')]
+
+    print("[coarse] 准备数据: train+valid 覆盖�?)
+    ensure_data(pool, start=min(train_start, valid_start), end=max(train_end, valid_end))
+
+    print("[coarse] 运行训练集粗调网格�?)
+    grid = {
+        "lookback_period": [5, 10, 15, 20, 30],
+        "buy_threshold": [-0.03, -0.05, -0.08, -0.10],
+        "sell_threshold": [0.02, 0.03, 0.05],
+    }
+    fixed = {"max_hold_days": 15}
+
+    train_res = run_grid(pool, train_start, train_end, grid, fixed)
+
+    print("[coarse] 以训练集最优参数在验证集评估�?)
+    best = (train_res.get('best_result') or {}).get('parameters', {})
+    if not best:
+        print("[warn] 训练集未得到最优参数，跳过验证评估")
+        best = {"lookback_period": 20, "buy_threshold": -0.08, "sell_threshold": 0.02}
+    valid_grid = {k: [v] for k, v in best.items()}
+    valid_res = run_grid(pool, valid_start, valid_end, valid_grid, fixed)
+
+    ts = datetime.now().strftime('%Y%m%d_%H%M%S')
+    outdir = OUT_ROOT / f"coarse_tuning_{ts}"
+    write_report(outdir, "train", train_res)
+    write_report(outdir, "valid", valid_res)
+    print(f"[coarse] 完成。报告目�? {outdir}")
+
+
+if __name__ == "__main__":
+    main()
+

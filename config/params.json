@@ -1,0 +1,24 @@
+{
+  "strategy_name": "OptimizedMeanReversion",
+  "description": "优化均值回归策略参数网格配置",
+  "parameter_grid": {
+    "lookback_period": [5, 10, 15, 20],
+    "buy_threshold": [-0.03, -0.05, -0.08, -0.10],
+    "sell_threshold": [0.02, 0.03, 0.05, 0.06]
+  },
+  "fixed_parameters": {
+    "max_hold_days": 15
+  },
+  "optimization_config": {
+    "start_date": "2022-01-01",
+    "end_date": "2023-12-31",
+    "rebalancing_freq": 10,
+    "stock_pool": ["000001", "000002", "600036", "600519", "000858"]
+  },
+  "scoring_weights": {
+    "total_return": 0.4,
+    "sharpe_ratio": 0.3,
+    "max_drawdown": 0.2,
+    "trade_activity": 0.1
+  }
+}

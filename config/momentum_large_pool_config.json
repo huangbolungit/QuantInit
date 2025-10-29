@@ -1,0 +1,36 @@
+{
+  "strategy_name": "CompatibleMomentum",
+  "description": "动量策略大样本优化配置 - 100+股票",
+  "parameter_grid": {
+    "momentum_period": [5, 10, 15, 20],
+    "buy_threshold": [0.03, 0.05, 0.08, 0.10],
+    "sell_threshold": [-0.02, -0.03, -0.05, -0.08],
+    "max_hold_days": [5, 10, 15, 20, 25]
+  },
+  "fixed_parameters": {
+    "position_size": 1000
+  },
+  "stock_pool": {
+    "type": "expanded",
+    "selection_criteria": "CSI800_top_150",
+    "target_size": 150,
+    "filters": {
+      "exclude_st": true,
+      "min_market_cap": 5000000000,
+      "min_avg_volume": 1000000
+    }
+  },
+  "optimization_settings": {
+    "objective": "sharpe_ratio",
+    "min_trades": 20,
+    "max_drawdown_threshold": 0.4,
+    "parallel_processing": true
+  },
+  "metadata": {
+    "created_date": "2025-10-19",
+    "total_combinations": 1280,
+    "expected_runtime": "3-6 hours",
+    "strategy_type": "momentum",
+    "sample_size": "150 stocks"
+  }
+}

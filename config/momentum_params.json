@@ -1,0 +1,25 @@
+{
+  "strategy_name": "OptimizedMomentum",
+  "description": "动量策略参数优化配置",
+  "parameter_grid": {
+    "momentum_period": [5, 10, 15, 20],
+    "buy_threshold": [0.03, 0.05, 0.08, 0.10],
+    "sell_threshold": [-0.02, -0.03, -0.05, -0.08],
+    "profit_target": [0.05, 0.08, 0.10, 0.15],
+    "max_hold_days": [10, 15, 20, 25]
+  },
+  "fixed_parameters": {
+    "position_size": 1000
+  },
+  "optimization_settings": {
+    "objective": "sharpe_ratio",
+    "min_trades": 10,
+    "max_drawdown_threshold": 0.5
+  },
+  "metadata": {
+    "created_date": "2025-10-19",
+    "total_combinations": 1024,
+    "expected_runtime": "2-4 hours",
+    "strategy_type": "momentum"
+  }
+}

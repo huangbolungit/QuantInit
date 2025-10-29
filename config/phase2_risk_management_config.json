@@ -1,0 +1,39 @@
+{
+  "strategy_name": "StatelessMeanReversion",
+  "description": "第二阶段：风险与退出参数精调 - 16组精细调整",
+  "phase": "risk_management_tuning",
+  "objective": "在核心逻辑确定基础上优化风险控制",
+  "depends_on": "phase1_best_parameters",
+  "parameter_grid": {
+    "stop_loss_threshold": [0.05, 0.08, 0.10, 0.15],
+    "max_hold_days": [5, 10, 15, 20]
+  },
+  "fixed_parameters": {
+    "lookback_period": "TO_BE_FILLED_FROM_PHASE1",
+    "buy_threshold": "TO_BE_FILLED_FROM_PHASE1",
+    "sell_threshold": "TO_BE_FILLED_FROM_PHASE1",
+    "profit_target": 0.08,
+    "position_size": 1000
+  },
+  "optimization_settings": {
+    "objective": "sharpe_ratio",
+    "min_trades": 10,
+    "max_drawdown_threshold": 0.4,
+    "expected_combinations": 16,
+    "estimated_runtime": "15-30 minutes"
+  },
+  "methodology": {
+    "focus": "风险控制参数（stop_loss_threshold, max_hold_days）",
+    "rationale": "在最优核心逻辑基础上，找到最佳风险控制参数",
+    "success_criteria": "最大化夏普比率同时控制回撤在可接受范围内"
+  },
+  "metadata": {
+    "created_date": "2025-10-19",
+    "strategy_type": "mean_reversion",
+    "design_pattern": "stateless",
+    "total_combinations": 16,
+    "computation_efficiency": "high",
+    "phase": "fine_tuning",
+    "prerequisite": "Phase1 completion"
+  }
+}
